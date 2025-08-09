@@ -132,7 +132,7 @@ def load_params(file_path="trained_params.npz"):
     Lädt die gespeicherten Gewichte und Biases aus einer .npz-Datei.
     """
     try:
-        data = np.load(file_path)
+        data = np.load(base_path / file_path)
         W1 = data['W1']
         b1 = data['b1']
         W2 = data['W2']
@@ -149,7 +149,7 @@ def make_prediction(X, W1, b1, W2, b2):
     _, _, _, A2 = foreward_prop(W1, b1, W2, b2, X)
 
     prediction = get_predictions(A2)
-    return prediction
+    return prediction, A2
 
 def show_prediction(image_data, true_label, predicted_label):
     """

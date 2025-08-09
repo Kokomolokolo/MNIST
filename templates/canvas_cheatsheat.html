@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Canvas Cheat Sheet</title>
+<style>
+  body { background: #f0f0f0; font-family: sans-serif; }
+  h1, h2 { text-align: center; }
+  canvas { background: white; display: block; margin: 20px auto; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+
+<h1>Canvas 2D API – Cheat Sheet</h1>
+<canvas id="canvas" width="800" height="600"></canvas>
+
+<script>
+const ctx = document.getElementById("canvas").getContext("2d");
+
+// ===== Farben und Linien-Einstellungen =====
+ctx.strokeStyle = "black";
+ctx.fillStyle = "lightblue";
+ctx.lineWidth = 3;
+ctx.lineCap = "round";
+ctx.lineJoin = "round";
+
+// ===== Linien zeichnen =====
+ctx.beginPath();
+ctx.moveTo(50, 50);
+ctx.lineTo(150, 50);
+ctx.lineTo(100, 100);
+ctx.stroke();
+ctx.closePath();
+
+// ===== Rechteck =====
+ctx.fillStyle = "orange";
+ctx.fillRect(200, 30, 100, 50);
+ctx.strokeRect(200, 30, 100, 50);
+
+// ===== Kreis / Bogen =====
+ctx.beginPath();
+ctx.arc(400, 60, 40, 0, Math.PI * 2);
+ctx.fillStyle = "lightgreen";
+ctx.fill();
+ctx.stroke();
+
+// ===== Quadratische Bézier-Kurve =====
+ctx.beginPath();
+ctx.moveTo(50, 200);
+ctx.quadraticCurveTo(150, 100, 250, 200);
+ctx.strokeStyle = "blue";
+ctx.stroke();
+
+// ===== Kubische Bézier-Kurve =====
+ctx.beginPath();
+ctx.moveTo(300, 200);
+ctx.bezierCurveTo(350, 100, 450, 300, 500, 200);
+ctx.strokeStyle = "red";
+ctx.stroke();
+
+// ===== ArcTo-Beispiel =====
+ctx.beginPath();
+ctx.moveTo(550, 150);
+ctx.arcTo(650, 150, 650, 250, 50);
+ctx.strokeStyle = "purple";
+ctx.stroke();
+
+// ===== Pfad füllen =====
+ctx.beginPath();
+ctx.moveTo(100, 300);
+ctx.lineTo(150, 350);
+ctx.lineTo(50, 350);
+ctx.closePath();
+ctx.fillStyle = "pink";
+ctx.fill();
+ctx.strokeStyle = "black";
+ctx.stroke();
+
+// ===== clearRect (Bereich löschen) =====
+ctx.clearRect(190, 290, 30, 30); // Löscht Bereich im Rechteck
+
+// ===== Text =====
+ctx.font = "24px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("Canvas ist cool!", 300, 350);
+ctx.strokeText("Outline-Text", 300, 380);
+</script>
+
+</body>
+</html>

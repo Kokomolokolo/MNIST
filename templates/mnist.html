@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nummern erkennen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mnist.css') }}">
 </head>
 <body>
 <h1>Nummern erkennen</h1>
-<canvas></canvas>
+<h2>Kleine Probleme mit Zahlen wie 7 aber paaaast</h2>
+<canvas id="num_canvas" width="280" height="280"></canvas>
+
+<canvas id="tmpCanvas" width="28" height="28" style="display:none;"></canvas>
+
+<button onclick="clear_canvas()">Clear Canvas</button>
 </body>
 <script src="{{ url_for('static', filename='mnist.js') }}"></script>
 </html>
