@@ -9,7 +9,7 @@ base_path = Path(__file__).parent  # Ordner, in dem main.py liegt
 # Daten laden
 data_train = np.array(pd.read_csv(base_path / 'data' / 'train.csv'))
 data_test = np.array(pd.read_csv(base_path / 'data' / 'test.csv'))
-
+print(data_train.shape)
 # Form der Daten
 m_train, n_train = data_train.shape
 m_test, n_test = data_test.shape
@@ -20,17 +20,27 @@ X_train = data_train[:, 1:].T  # alle Zeilen, alle Spalten ab 1
 
 Y_test = data_test[:, 0]
 X_test = data_test[:, 1:].T
-
+print(X_train.shape)
+for i in X_train:
+    for j in i:
+        if j > 0:
+            j = 255
 # Normalisieren der Pixelwerte AHHHH
 X_train = X_train / 255.
 X_test = X_test / 255.
 
 # Intitialisiertung zufälliger Startwerte für W und b
-def init_params():
+def init_params2():
     W1 = np.random.rand(10, 784) - 0.5
     b1 = np.random.rand(10, 1) -0.5
     W2 = np.random.rand(10, 10) - 0.5
     b2 = np.random.rand(10, 1) -0.5
+    return W1, b1, W2, b2
+def init_params():
+    W1 = np.random.randn(10, 784) * np.sqrt(2.0/784) # Kleinere Gewichte, proportional zu gesammtzahl
+    b1 = np.zeros((10, 1))               # Biases auf 0
+    W2 = np.random.randn(10, 10) * 0.1
+    b2 = np.zeros((10, 1))
     return W1, b1, W2, b2
 
 def ReLU(Z):
@@ -108,13 +118,16 @@ def gradient_descent(X, Y, iterations, alpha):
         if (i % 10 == 0):
             print("Interation: ", i)
             print("Accuracy: ", get_accuracy(get_predictions(A2), Y))
+        # Füg das in gradient_descent ein:
+        if (i % 100 == 0):
+            loss = -np.mean(np.log(A2[Y, np.arange(Y.size)] + 1e-15))
+            print(f"Iteration {i}, Loss: {loss:.4f}, Accuracy: {get_accuracy(get_predictions(A2), Y):.4f}")
     return W1, b1, W2, b2
 
 def get_predictions(A2):
     return np.argmax(A2, 0)
 
 def get_accuracy(predictions, Y):
-    print(predictions, Y)
     return np.sum(predictions == Y) / Y.size # das ist cool
 
 def save_params(W1, b1, W2, b2):
@@ -170,8 +183,9 @@ def show_prediction(image_data, true_label, predicted_label):
     plt.show()
 
 if __name__ == '__main__':
+    W1, b1, W2, b2 = gradient_descent(X_train, Y_train, 500, 0.05)
+    save_params(W1, b1, W2, b2)
     W1, b1, W2, b2 = load_params()
-    print(Y_test.size)
     if W1 is not None:
         wrong_predictions = []
         for i in range(0, Y_test.size):
@@ -191,7 +205,7 @@ if __name__ == '__main__':
             print("-----------------------------------------------------------------")
             print("Zeige erstes Flasches Beispiel")
 
-            predicted_label_of_wrong, true_label_of_wrong, wrong_index = wrong_predictions[0]
+            predicted_label_of_wrong, true_label_of_wrong, wrong_index = wrong_predictions[2]
             
             # 2. Hole dir das dazugehörige Bild aus dem Datensatz
             image_to_show = X_test[:, wrong_index]
