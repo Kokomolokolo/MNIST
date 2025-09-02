@@ -1,3 +1,2 @@
 /bob/data/*
 /bob/__pycache__
-/bob/trained_params.npz
